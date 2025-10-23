@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "tauri-updater",
+      "script": "dist/index.cjs",
+      "instances": 1,
+      "exec_mode": "fork",
+      "autorestart": true,
+      "max_memory_restart": "1G"
+    }
+  ]
+}

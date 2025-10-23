@@ -1,0 +1,33 @@
+{
+  "name": "tauri-updater",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "author": "lin52025i",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup",
+    "start": "node dist/index.cjs",
+    "pm2:start": "pm2 start pm2.config.json",
+    "pm2:stop": "pm2 stop tauri-updater",
+    "pm2:restart": "pm2 restart tauri-updater"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.5",
+    "dotenv": "^17.2.3",
+    "hono": "^4.10.2",
+    "semver": "^7.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "@types/semver": "^7.7.1",
+    "tsup": "^8.5.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
