@@ -180,7 +180,7 @@ ALIOSS_DIR=
 
 检查是否有新版本可用。
 
-**端点：** `GET /check/:username/:reponame/:platform/:arch/:version`
+**端点：** `GET /github/check/:username/:reponame/:platform/:arch/:version`
 
 **参数：**
 - `username` - GitHub 用户名或组织名
@@ -208,6 +208,8 @@ ALIOSS_DIR=
 ### 3. 下载资源（GitHub 源）
 
 下载 GitHub Release 资源文件。
+
+> **说明：** 此接口通常不需要手动调用。下载链接会在调用"检查更新"接口时自动返回在响应的 `url` 字段中。Tauri 应用会自动使用该链接下载更新文件。
 
 **端点：** `GET /github/download-asset`
 
@@ -325,7 +327,7 @@ ALIOSS_DIR=
   "updater": {
     "active": true,
     "endpoints": [
-      "http://your-server.com/check/username/reponame/{{target}}/{{arch}}/{{current_version}}"
+      "http://your-server.com/github/check/username/reponame/{{target}}/{{arch}}/{{current_version}}"
     ],
     "dialog": true,
     "pubkey": "YOUR_PUBLIC_KEY"
@@ -414,7 +416,7 @@ curl http://your-server.com/alioss/username/reponame/upload
 
 ```bash
 # 检查更新（GitHub 源）
-curl http://localhost:3000/check/tauri-apps/tauri/darwin/x86_64/1.0.0
+curl http://localhost:3000/github/check/tauri-apps/tauri/darwin/x86_64/1.0.0
 
 # 检查更新（OSS 源）
 curl http://localhost:3000/alioss/check/tauri-apps/tauri/darwin/x86_64/1.0.0
