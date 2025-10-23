@@ -14,11 +14,13 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.5",
+    "ali-oss": "^6.23.0",
     "dotenv": "^17.2.3",
     "hono": "^4.10.2",
     "semver": "^7.7.3"
   },
   "devDependencies": {
+    "@types/ali-oss": "^6.16.11",
     "@types/node": "^20.11.17",
     "@types/semver": "^7.7.1",
     "tsup": "^8.5.0",

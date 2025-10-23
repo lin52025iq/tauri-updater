@@ -14,4 +14,7 @@ export default defineConfig({
   noExternal: [/\.*/],
   platform: 'node',
   skipNodeModulesBundle: false,
+  esbuildOptions(options) {
+    options.external = [...(options.external || []), 'proxy-agent']
+  },
 })

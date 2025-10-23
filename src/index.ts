@@ -3,6 +3,7 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { githubRoutes } from './routes/github.routes'
+import { aliossRoutes } from './routes/alioss.routes'
 
 /**
  * 创建应用实例
@@ -14,8 +15,10 @@ app.use('/*', cors())
 
 // 请求日志中间件
 app.use(async (c, next) => {
-  console.log(`${c.req.method} ${c.req.url}`)
+  const start = Date.now()
   await next()
+  const ms = Date.now() - start
+  console.log(`${c.req.method} ${c.req.path} - ${ms}ms`)
 })
 
 // 健康检查路由
@@ -25,6 +28,7 @@ app.get('/health', (c) => {
 
 // 注册路由
 app.route('/', githubRoutes)
+app.route('/', aliossRoutes)
 
 /**
  * 启动服务器

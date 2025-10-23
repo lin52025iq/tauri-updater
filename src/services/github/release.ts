@@ -1,6 +1,5 @@
-import { getGitHubToken } from '../utils/github'
-import { USER_AGENT } from '../utils/constants'
-import type { GitHubRelease } from '../types'
+import { getGitHubToken, USER_AGENT } from './client'
+import type { GitHubRelease } from '../../types'
 
 /**
  * 获取最新发布版本
@@ -32,3 +31,4 @@ export async function getLatestRelease(username: string, reponame: string): Prom
     return null
   }
 }
+
