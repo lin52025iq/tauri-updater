@@ -13,13 +13,12 @@ services:
       - PORT=3000
       # GitHub 相关环境变量
       - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - GITHUB_OWNER=${GITHUB_OWNER}
-      - GITHUB_REPO=${GITHUB_REPO}
       # 阿里云 OSS 相关环境变量
       - ALIOSS_ACCESS_KEY_ID=${ALIOSS_ACCESS_KEY_ID}
       - ALIOSS_ACCESS_KEY_SECRET=${ALIOSS_ACCESS_KEY_SECRET}
       - ALIOSS_REGION=${ALIOSS_REGION}
       - ALIOSS_BUCKET=${ALIOSS_BUCKET}
+      - ALIOSS_DIR=${ALIOSS_DIR}
     volumes:
       # 如果需要持久化日志或其他数据，可以挂载卷
       - ./logs:/app/logs
