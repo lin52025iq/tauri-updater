@@ -21,7 +21,8 @@ export async function getDownloadUrlFromOss(
         const client = createOssClient(config)
 
         // 构建 latest.json 的路径：username/reponame/download/latest.json
-        const objectKey = buildOssPath(config, `${username}/${reponame}/download/latest.json`)
+        const latestPath = `${username}/${reponame}/download/latest.json`
+        const objectKey = config.dir ? `${config.dir}/${latestPath}` : latestPath
 
         console.log(`[OSS] Fetching download latest.json from: ${objectKey}`)
 

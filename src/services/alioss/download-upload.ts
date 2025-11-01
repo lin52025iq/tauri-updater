@@ -84,7 +84,7 @@ export async function uploadInstallableFilesToDownload(
 
     // 构建上传路径：username/reponame/download/
     const downloadPath = `${username}/${reponame}/download/`
-    const finalDir = envConfig.dir ? `${envConfig.dir}${downloadPath}` : downloadPath
+    const finalDir = envConfig.dir ? `${envConfig.dir}/${downloadPath}` : downloadPath
     const configWithPath = { ...envConfig, dir: finalDir }
 
     console.log(`[OSS] Upload path for download files: ${finalDir}`)
