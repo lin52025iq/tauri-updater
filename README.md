@@ -314,6 +314,97 @@ ALIOSS_DIR=
 }
 ```
 
+### 4. 上传可安装文件到 download 目录
+
+将 GitHub Release 中的可分发包（`.dmg`、`.exe`、`.AppImage`）上传到 OSS 的 `download` 目录，并生成 `latest.json` 文件记录每个平台和架构对应的下载地址。
+
+**端点：** `GET /alioss/:username/:reponame/upload-download`
+
+**参数：**
+- `username` - GitHub 用户名或组织名
+- `reponame` - 仓库名称
+
+**功能说明：**
+1. 自动从 GitHub 获取最新的 Release
+2. 筛选出可分发的安装文件类型：
+   - `.dmg` - macOS 磁盘镜像
+   - `.exe` - Windows 可执行安装程序
+   - `.AppImage` - Linux 应用镜像
+3. 自动识别每个文件的平台和架构
+4. 上传到 OSS（`username/reponame/download/` 目录）
+5. 生成 `latest.json` 文件，记录每个平台和架构对应的下载地址
+6. 将 `latest.json` 也上传到 `download` 目录
+
+**响应示例：**
+```json
+{
+  "success": true,
+  "latest_json_url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/username/reponame/download/latest.json",
+  "latest_json": {
+    "darwin-x86_64": {
+      "platform": "darwin",
+      "arch": "x86_64",
+      "url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/username/reponame/download/app-x86_64.dmg",
+      "fileName": "app-x86_64.dmg"
+    },
+    "windows-x86_64": {
+      "platform": "windows",
+      "arch": "x86_64",
+      "url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/username/reponame/download/app-x86_64.exe",
+      "fileName": "app-x86_64.exe"
+    },
+    "linux-x86_64": {
+      "platform": "linux",
+      "arch": "x86_64",
+      "url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/username/reponame/download/app-x86_64.AppImage",
+      "fileName": "app-x86_64.AppImage"
+    }
+  },
+  "uploaded_files": [
+    {
+      "name": "app-x86_64.dmg",
+      "url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/...",
+      "size": 12345678,
+      "platform": "darwin",
+      "arch": "x86_64"
+    },
+    {
+      "name": "app-x86_64.exe",
+      "url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/...",
+      "size": 12345678,
+      "platform": "windows",
+      "arch": "x86_64"
+    }
+  ]
+}
+```
+
+### 5. 获取指定平台和架构的下载 URL
+
+从 OSS 的 `download/latest.json` 中获取指定平台和架构的下载 URL。
+
+**端点：** `GET /alioss/download/:username/:reponame/:platform/:arch`
+
+**参数：**
+- `username` - 项目用户名或组织名
+- `reponame` - 项目名称
+- `platform` - 平台类型：`darwin` | `windows` | `linux`
+- `arch` - 架构类型：`x86_64` | `i686` | `aarch64` | `armv7`
+
+**响应示例：**
+```json
+{
+  "platform": "darwin",
+  "arch": "x86_64",
+  "url": "https://your-bucket.oss-cn-hangzhou.aliyuncs.com/username/reponame/download/app-x86_64.dmg",
+  "fileName": "app-x86_64.dmg"
+}
+```
+
+**状态码：**
+- `200` - 成功获取下载 URL
+- `404` - 未找到指定平台和架构的下载文件
+
 ## 💡 使用示例
 
 ### 在 Tauri 应用中使用
@@ -429,6 +520,12 @@ curl http://localhost:3000/alioss/tauri-apps/tauri/latest
 
 # 上传到 OSS
 curl http://localhost:3000/alioss/tauri-apps/tauri/upload
+
+# 上传可安装文件到 download 目录
+curl http://localhost:3000/alioss/tauri-apps/tauri/upload-download
+
+# 获取指定平台和架构的下载 URL
+curl http://localhost:3000/alioss/download/tauri-apps/tauri/darwin/x86_64
 
 # 健康检查
 curl http://localhost:3000/health
