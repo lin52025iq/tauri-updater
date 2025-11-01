@@ -54,7 +54,7 @@ export async function uploadReleaseAssetsToOss(
   const defaultPath = `${username}/${reponame}/${releaseName}/`
 
   // 合并环境变量的 dir 和默认路径
-  const finalDir = envConfig.dir ? `${envConfig.dir}${defaultPath}` : defaultPath
+  const finalDir = envConfig.dir ? `${envConfig.dir}/${defaultPath}` : defaultPath
   const configWithPath = { ...envConfig, dir: finalDir }
 
   console.log(`[OSS] Upload path: ${finalDir}`)

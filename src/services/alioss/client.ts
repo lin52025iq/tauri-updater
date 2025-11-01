@@ -34,6 +34,8 @@ export function createOssClient(config: OssConfig): OSS {
     accessKeySecret: config.access_key_secret,
     bucket: config.bucket,
     region: config.endpoint.replace('.aliyuncs.com', ''),
+    secure: true,
+    timeout: 30000
   })
 }
 
@@ -44,7 +46,7 @@ export function createOssClient(config: OssConfig): OSS {
  * @returns 完整的对象路径
  */
 export function buildOssPath(config: OssConfig, ...paths: string[]): string {
-  const joinedPath = paths.filter(Boolean).join('')
+  const joinedPath = paths.filter(Boolean).join('/')
   return config.dir ? `${config.dir}${joinedPath}` : joinedPath
 }
 
@@ -60,10 +62,10 @@ export async function uploadToOss(
   
   // 拼接上传路径：dir + fileName
   const objectKey = buildOssPath(config, fileName)
-  
+
   // 上传 Buffer 到指定路径
   const result = await client.put(objectKey, fileBuffer)
-  
+
   return result.url
 }
 
