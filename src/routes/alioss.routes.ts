@@ -27,6 +27,16 @@ aliossRoutes.get(`/${routename}/check/:username/:reponame/:platform/:arch/:versi
     })
 })
 
+// 从 OSS 检查更新（简化路径）
+aliossRoutes.get(`/check/:username/:reponame/:platform/:arch/:version`, async (c) => {
+    const params = c.req.param()
+
+    return checkUpdateFromOss({
+        ...params,
+        arch: params.arch as Arch,
+    })
+})
+
 // 上传 Release 资产到 OSS
 aliossRoutes.get(`/${routename}/:username/:reponame/upload`, async (c) => {
     try {
