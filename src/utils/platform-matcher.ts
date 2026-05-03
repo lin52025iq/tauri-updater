@@ -26,17 +26,18 @@ export function isMatchingAsset(platform: string, arch: Arch, fileName: string):
  * 用于 Tauri Update Manifest 平台键匹配
  */
 export function isMatchingPlatformKey(platform: string, arch: Arch, platformKey: string): boolean {
-  const lowerKey = platformKey.toLowerCase()
+  const [os, _arch] = platformKey?.toLowerCase()?.split('-') || []
 
   // 检查平台匹配
   const platformKeywords = PLATFORM_RULES[platform as Platform]
-  if (!platformKeywords?.some(keyword => lowerKey.includes(keyword))) {
+
+  if (!platformKeywords?.includes(os)) {
     return false
   }
 
   // 检查架构匹配
   const archKeys = ARCH_RULES[arch] || []
-  return archKeys.some(keyword => lowerKey.includes(keyword))
+  return archKeys.includes(_arch)
 }
 
 /**
